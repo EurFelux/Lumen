@@ -39,4 +39,15 @@ public enum IOKitBridging {
     public static func closeConnection(_ connect: io_connect_t) {
         IOServiceClose(connect)
     }
+
+    /// Reads a Double property from the IOKit registry
+    public static func readPropertyDouble(_ service: io_service_t, _ key: String) -> Double? {
+        guard let result = IORegistryEntryCreateCFProperty(service, key as CFString, kCFAllocatorDefault, 0) else {
+            return nil
+        }
+        let value = result.takeRetainedValue()
+        if let d = value as? Double { return d }
+        if let n = value as? NSNumber { return n.doubleValue }
+        return nil
+    }
 }

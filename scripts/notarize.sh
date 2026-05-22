@@ -10,7 +10,7 @@ set -euo pipefail
 # Find it with: security find-identity -v -p codesigning
 # Example: DEVELOPER_ID="Developer ID Application: Your Name (TEAMID)"
 # ---------------------------------------------------------------------------
-DEVELOPER_ID="Developer ID Application: KEVIN PATRICK KNIGHT (5P2LWPPWRN)"
+DEVELOPER_ID="Developer ID Application: YOUR_NAME_HERE (TEAM_ID_HERE)"
 # ---------------------------------------------------------------------------
 
 APP_PATH="${1:-}"

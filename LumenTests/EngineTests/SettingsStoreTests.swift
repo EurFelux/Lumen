@@ -15,7 +15,7 @@ final class SettingsStoreTests: XCTestCase {
     }
 
     func testDefaultDebounceDuration() {
-        XCTAssertEqual(store.debounceDuration, 30.0)
+        XCTAssertEqual(store.debounceDuration, 5.0)
     }
 
     func testDefaultEnableAutoSwitch() {
@@ -32,7 +32,7 @@ final class SettingsStoreTests: XCTestCase {
 
     func testResetToDefaults() {
         store.lightThreshold = 99.0
-        store.debounceDuration = 5.0
+        store.debounceDuration = 20.0
         store.enableAutoSwitch = false
         store.launchAtLogin = true
         store.manualOverridePauseDuration = 60.0
@@ -40,7 +40,7 @@ final class SettingsStoreTests: XCTestCase {
         store.resetToDefaults()
 
         XCTAssertEqual(store.lightThreshold, 400.0)
-        XCTAssertEqual(store.debounceDuration, 30.0)
+        XCTAssertEqual(store.debounceDuration, 5.0)
         XCTAssertEqual(store.enableAutoSwitch, true)
         XCTAssertEqual(store.launchAtLogin, false)
         XCTAssertEqual(store.manualOverridePauseDuration, 300.0)

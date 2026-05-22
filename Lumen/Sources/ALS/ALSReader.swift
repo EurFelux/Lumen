@@ -131,15 +131,3 @@ public final class ALSReader: NSObject, ALSReadingProtocol {
         return max(0, lux)
     }
 }
-
-public extension IOKitBridging {
-    static func readPropertyDouble(_ service: io_service_t, _ key: String) -> Double? {
-        guard let result = IORegistryEntryCreateCFProperty(service, key as CFString, kCFAllocatorDefault, 0) else {
-            return nil
-        }
-        let value = result.takeRetainedValue()
-        if let d = value as? Double { return d }
-        if let n = value as? NSNumber { return n.doubleValue }
-        return nil
-    }
-}

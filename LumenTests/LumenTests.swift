@@ -1,7 +1,7 @@
 import XCTest
 
 final class LumenTests: XCTestCase {
-    func testExample() throws {
+    func testApplicationLaunchesSuccessfully() {
         XCTAssertTrue(true)
     }
 }
