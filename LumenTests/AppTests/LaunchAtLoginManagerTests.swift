@@ -82,8 +82,13 @@ final class LaunchAtLoginManagerTests: XCTestCase {
         XCTAssertEqual(service.unregisterCallCount, 1)
     }
 
+    private func makeIsolatedSettings() -> SettingsStore {
+        let suiteName = "test.LaunchAtLogin.\(UUID().uuidString)"
+        return SettingsStore(defaults: UserDefaults(suiteName: suiteName)!)
+    }
+
     func testBind_syncsInitialState_enabled() {
-        let settings = SettingsStore()
+        let settings = makeIsolatedSettings()
         settings.launchAtLogin = true
         manager.bind(to: settings)
         XCTAssertEqual(service.registerCallCount, 1)
@@ -92,7 +97,7 @@ final class LaunchAtLoginManagerTests: XCTestCase {
 
     func testBind_syncsInitialState_disabled() {
         service.status = .enabled
-        let settings = SettingsStore()
+        let settings = makeIsolatedSettings()
         settings.launchAtLogin = false
         manager.bind(to: settings)
         XCTAssertEqual(service.unregisterCallCount, 1)
@@ -101,7 +106,7 @@ final class LaunchAtLoginManagerTests: XCTestCase {
 
     func testBind_whenAlreadyInSync_doesNothing() throws {
         service.status = .notRegistered
-        let settings = SettingsStore()
+        let settings = makeIsolatedSettings()
         settings.launchAtLogin = false
         manager.bind(to: settings)
         XCTAssertEqual(service.registerCallCount, 0)

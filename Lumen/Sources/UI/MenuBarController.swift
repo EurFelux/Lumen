@@ -25,6 +25,12 @@ public final class MenuBarController: NSObject {
         setupEventMonitor()
     }
 
+    deinit {
+        if let monitor = eventMonitor {
+            NSEvent.removeMonitor(monitor)
+        }
+    }
+
     private func setupStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         guard let button = statusItem.button else { return }
@@ -49,7 +55,7 @@ public final class MenuBarController: NSObject {
     }
 
     @objc private func statusBarButtonClicked(_ sender: NSStatusBarButton) {
-        let event = NSApp.currentEvent!
+        guard let event = NSApp.currentEvent else { return }
         if event.type == .rightMouseUp {
             showMinimalMenu()
         } else {
@@ -107,7 +113,6 @@ public final class MenuBarController: NSObject {
     public func updateIcon(for mode: AppearanceMode) {
         guard let button = statusItem.button else { return }
         button.image = StatusBarIcon.image(for: mode)
-        settingsViewController?.updateModeStatus(mode)
     }
 
     public func updateCurrentReading(_ reading: ALSReading?) {

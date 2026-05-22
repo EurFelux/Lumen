@@ -365,9 +365,6 @@ final class SettingsViewController: NSViewController {
             .store(in: &cancellables)
     }
 
-    func updateModeStatus(_ mode: AppearanceMode) {
-    }
-
     func updateCurrentReading(_ reading: ALSReading?) {
         guard isViewLoaded else { return }
         currentReading = reading

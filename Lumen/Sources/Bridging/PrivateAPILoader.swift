@@ -11,62 +11,23 @@ public typealias IOHIDEventRef = UnsafeMutableRawPointer
 public let kAmbientLightSensorEvent: Int32 = 12
 public func IOHIDEventFieldBase(_ type: Int32) -> Int32 { return type << 16 }
 
-// MARK: - Private API Declarations (dlsym targets)
-// BezelServices
-@_silgen_name("ALCALSCopyALSServiceClient")
-public func ALCALSCopyALSServiceClient() -> IOHIDServiceClientRef
-
-@_silgen_name("IOHIDServiceClientCopyEvent")
-public func IOHIDServiceClientCopyEvent(_ service: IOHIDServiceClientRef, _ type: Int64, _ eventType: Int32, _ options: Int64) -> IOHIDEventRef
-
-@_silgen_name("IOHIDEventGetFloatValue")
-public func IOHIDEventGetFloatValue(_ event: IOHIDEventRef, _ field: Int32) -> Double
-
-// SkyLight
-@_silgen_name("SLSGetAppearanceThemeLegacy")
-public func SLSGetAppearanceThemeLegacy() -> Int32
-
-@_silgen_name("SLSSetAppearanceThemeLegacy")
-public func SLSSetAppearanceThemeLegacy(_ mode: Int32)
-
-@_silgen_name("SLSSetAppearanceThemeNotifying")
-public func SLSSetAppearanceThemeNotifying(_ mode: Int32, _ notify: Bool) -> Bool
 
 // MARK: - Framework Loader
 public enum PrivateAPILoader {
-    private static var _bezelHandle: UnsafeMutableRawPointer?
-    private static var _skylightHandle: UnsafeMutableRawPointer?
-    private static var _displayHandle: UnsafeMutableRawPointer?
+    private static let _bezelHandle: UnsafeMutableRawPointer? = dlopen(BEZEL_SERVICES_PATH, RTLD_LAZY)
+    private static let _skylightHandle: UnsafeMutableRawPointer? = dlopen(SKYLIGHT_PATH, RTLD_LAZY)
+    private static let _displayHandle: UnsafeMutableRawPointer? = dlopen(DISPLAY_SERVICES_PATH, RTLD_LAZY)
     
-    // BezelServices ALS
     public static func loadBezelServices() -> UnsafeMutableRawPointer? {
-        if let existing = _bezelHandle { return existing }
-        let handle = dlopen(BEZEL_SERVICES_PATH, RTLD_LAZY)
-        _bezelHandle = handle
-        return handle
+        return _bezelHandle
     }
     
-    // SkyLight appearance switching
     public static func loadSkyLight() -> UnsafeMutableRawPointer? {
-        if let existing = _skylightHandle { return existing }
-        let handle = dlopen(SKYLIGHT_PATH, RTLD_LAZY)
-        _skylightHandle = handle
-        return handle
+        return _skylightHandle
     }
     
-    // DisplayServices
     public static func loadDisplayServices() -> UnsafeMutableRawPointer? {
-        if let existing = _displayHandle { return existing }
-        let handle = dlopen(DISPLAY_SERVICES_PATH, RTLD_LAZY)
-        _displayHandle = handle
-        return handle
-    }
-    
-    // Resolve symbol with dlsym from loaded handle
-    public static func resolveSymbol<T>(_ handle: UnsafeMutableRawPointer?, _ symbol: String) -> T? {
-        guard let handle = handle else { return nil }
-        guard let ptr = dlsym(handle, symbol) else { return nil }
-        return unsafeBitCast(ptr, to: T.self)
+        return _displayHandle
     }
     
     // MARK: - Specific API accessors (typed function pointers)
@@ -76,6 +37,20 @@ public enum PrivateAPILoader {
         guard let handle = loadBezelServices() else { return { return nil } }
         guard let sym = dlsym(handle, "ALCALSCopyALSServiceClient") else { return { return nil } }
         return unsafeBitCast(sym, to: (@convention(c) () -> IOHIDServiceClientRef?).self)
+    }
+    
+    /// IOHIDServiceClientCopyEvent — copy an HID event from a service client
+    public static func IOHIDServiceClientCopyEventPtr() -> @convention(c) (IOHIDServiceClientRef, Int64, Int32, Int64) -> IOHIDEventRef? {
+        guard let handle = loadBezelServices() else { return { _, _, _, _ in return nil } }
+        guard let sym = dlsym(handle, "IOHIDServiceClientCopyEvent") else { return { _, _, _, _ in return nil } }
+        return unsafeBitCast(sym, to: (@convention(c) (IOHIDServiceClientRef, Int64, Int32, Int64) -> IOHIDEventRef?).self)
+    }
+    
+    /// IOHIDEventGetFloatValue — get float value from an HID event
+    public static func IOHIDEventGetFloatValuePtr() -> @convention(c) (IOHIDEventRef, Int32) -> Double {
+        guard let handle = loadBezelServices() else { return { _, _ in return 0.0 } }
+        guard let sym = dlsym(handle, "IOHIDEventGetFloatValue") else { return { _, _ in return 0.0 } }
+        return unsafeBitCast(sym, to: (@convention(c) (IOHIDEventRef, Int32) -> Double).self)
     }
     
     /// SLSGetAppearanceThemeLegacy — get current appearance (0=light, 1=dark)
@@ -103,8 +78,8 @@ public enum PrivateAPILoader {
     public static func displayServicesAggregatedLux() -> Double? {
         guard loadDisplayServices() != nil else { return nil }
         guard let cls = NSClassFromString("DisplayServicesClient") else { return nil }
-        let obj = (cls as? NSObject.Type)?.perform(Selector(("new")))?.takeUnretainedValue()
-        let lux = (obj as? NSObject)?.perform(Selector(("copyPropertyForKey:")), with: "AggregatedLux")?.takeUnretainedValue() as? NSNumber
+        let obj = (cls as? NSObject.Type)?.perform(Selector(("new")))?.takeRetainedValue()
+        let lux = (obj as? NSObject)?.perform(Selector(("copyPropertyForKey:")), with: "AggregatedLux")?.takeRetainedValue() as? NSNumber
         return lux?.doubleValue
     }
 }

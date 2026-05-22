@@ -3,11 +3,24 @@ import XCTest
 
 final class SettingsStoreTests: XCTestCase {
     var store: SettingsStore!
+    private var testSuiteName: String!
+    private var testDefaults: UserDefaults!
 
     override func setUp() {
         super.setUp()
-        store = SettingsStore()
-        store.resetToDefaults()
+        testSuiteName = "test.SettingsStore.\(UUID().uuidString)"
+        testDefaults = UserDefaults(suiteName: testSuiteName)!
+        store = SettingsStore(defaults: testDefaults)
+    }
+
+    override func tearDown() {
+        if let suiteName = testSuiteName {
+            UserDefaults.standard.removePersistentDomain(forName: suiteName)
+        }
+        testSuiteName = nil
+        testDefaults = nil
+        store = nil
+        super.tearDown()
     }
 
     func testDefaultLightThreshold() {
@@ -48,7 +61,7 @@ final class SettingsStoreTests: XCTestCase {
 
     func testPersistLightThreshold() {
         store.lightThreshold = 25.0
-        let fresh = SettingsStore()
+        let fresh = SettingsStore(defaults: testDefaults)
         XCTAssertEqual(fresh.lightThreshold, 25.0)
     }
 }

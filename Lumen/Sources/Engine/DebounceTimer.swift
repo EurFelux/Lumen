@@ -15,6 +15,10 @@ public final class DebounceTimer: DebounceTimerProtocol {
         self.action = action
     }
 
+    deinit {
+        cancel()
+    }
+
     public func start() {
         cancel()
         let item = DispatchWorkItem(block: action)

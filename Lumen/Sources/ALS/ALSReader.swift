@@ -60,15 +60,16 @@ public final class ALSReader: NSObject, ALSReadingProtocol {
     }
 
     private func readHID() -> ALSReading? {
-        guard let clientPtr = PrivateAPILoader.ALCALSCopyALSServiceClientPtr() as? @convention(c) () -> IOHIDServiceClientRef?,
-              let client = clientPtr() else { return nil }
+        let clientFn = PrivateAPILoader.ALCALSCopyALSServiceClientPtr()
+        guard let client = clientFn() else { return nil }
 
-        let event = IOHIDServiceClientCopyEvent(client, Int64(kAmbientLightSensorEvent), 0, 0)
-        guard event != nil else {
+        let copyEventFn = PrivateAPILoader.IOHIDServiceClientCopyEventPtr()
+        guard let event = copyEventFn(client, Int64(kAmbientLightSensorEvent), 0, 0) else {
             return nil
         }
 
-        let raw = IOHIDEventGetFloatValue(event, IOHIDEventFieldBase(kAmbientLightSensorEvent))
+        let getValueFn = PrivateAPILoader.IOHIDEventGetFloatValuePtr()
+        let raw = getValueFn(event, IOHIDEventFieldBase(kAmbientLightSensorEvent))
         let lux = LuxCalibrator.calibrate(Double(raw), source: .hid)
         return ALSReading(lux: lux, source: .hid)
     }

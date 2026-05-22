@@ -47,10 +47,11 @@ enum StatusBarIcon {
             .foregroundColor: NSColor.labelColor,
         ]
         let attributedString = NSAttributedString(string: text, attributes: attributes)
-        let textImage = NSImage(size: NSSize(width: 22, height: 22))
-        textImage.lockFocus()
-        attributedString.draw(at: NSPoint(x: 3, y: 2))
-        textImage.unlockFocus()
+        let size = NSSize(width: 18, height: 18)
+        let textImage = NSImage(size: size, flipped: false) { rect in
+            attributedString.draw(at: NSPoint(x: 1, y: 1))
+            return true
+        }
         textImage.isTemplate = true
         return textImage
     }

@@ -3,9 +3,14 @@ import Observation
 
 @Observable
 public final class ThresholdEngine {
+    /// Hysteresis ratio: dark threshold = lightThreshold * this value.
+    /// Set below 1.0 to create a dead band that prevents rapid toggling near the threshold.
+    private static let hysteresisRatio = 0.7
+
     private let settings: SettingsStore
     private var debounceTimer: DebounceTimerProtocol?
     private var pendingMode: AppearanceMode?
+    private var manualOverrideWorkItem: DispatchWorkItem?
 
     public weak var delegate: ThresholdEngineDelegate?
     public var currentMode: AppearanceMode = .dark
@@ -22,7 +27,7 @@ public final class ThresholdEngine {
         guard !isPaused else { return }
 
         let lightThreshold = settings.lightThreshold
-        let darkThreshold = lightThreshold * 0.7
+        let darkThreshold = lightThreshold * Self.hysteresisRatio
 
         let threshold = currentMode == .light ? darkThreshold : lightThreshold
         let shouldSwitchToLight = reading.lux >= threshold
@@ -50,12 +55,15 @@ public final class ThresholdEngine {
     }
 
     public func pauseForManualOverride() {
+        manualOverrideWorkItem?.cancel()
         isPaused = true
         debounceTimer?.cancel()
         pendingMode = nil
-        DispatchQueue.main.asyncAfter(deadline: .now() + settings.manualOverridePauseDuration) { [weak self] in
+        let item = DispatchWorkItem { [weak self] in
             self?.isPaused = false
         }
+        manualOverrideWorkItem = item
+        DispatchQueue.main.asyncAfter(deadline: .now() + settings.manualOverridePauseDuration, execute: item)
     }
 
     private func triggerSwitch(to mode: AppearanceMode) {
