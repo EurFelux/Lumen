@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "id": "6db02b79-793e-456d-9c89-eec5e1a1029a",
+      "name": "Remove committed cert.p12 and add to .gitignore",
+      "description": "Remove the cert.p12 from the repo and add *.p12 to .gitignore for security.",
+      "status": "Completed",
+      "sort_order": 0,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:05:05.653044Z"
+    },
+    {
+      "id": "b93fa653-7f26-4bda-a1e3-7a2114f0cef6",
+      "name": "Remove dead code: showAutoModeDisabledNotice and updateModeStatus",
+      "description": "Remove the empty showAutoModeDisabledNotice method from MenuBarController and the empty updateModeStatus method from SettingsViewController, along with their call sites.",
+      "status": "Completed",
+      "sort_order": 1,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:05:42.799245Z"
+    },
+    {
+      "id": "a4ed951c-a622-42e3-908a-8caa0ffb84ea",
+      "name": "Deduplicate readProperty by removing readPropertyDouble extension",
+      "description": "Enhance the generic IOKitBridging.readProperty to handle NSNumber→Double coercion, then remove the readPropertyDouble extension from ALSReader.swift.",
+      "status": "Completed",
+      "sort_order": 2,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:06:04.635468Z"
+    },
+    {
+      "id": "c90b8683-42dd-4f70-af0f-6d0f5161f3ae",
+      "name": "Deduplicate formatLux / LuxLevel.displayValue",
+      "description": "Create a shared LuxFormatter utility and have both SettingsViewController and LuxLevel.displayValue use it.",
+      "status": "Completed",
+      "sort_order": 3,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:06:25.525426Z"
+    },
+    {
+      "id": "809e304b-f2da-4ff3-b66c-c30b1360d32d",
+      "name": "Cache resolved function pointers in PrivateAPILoader",
+      "description": "Convert the dlsym-based accessor methods to use static lazy cached closures to avoid repeated dlsym calls.",
+      "status": "Completed",
+      "sort_order": 4,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:06:55.220192Z"
+    },
+    {
+      "id": "b8860848-c78c-4526-a58b-8240104967bf",
+      "name": "Cache StatusBarIcon image",
+      "description": "Cache the loaded lumen icon in StatusBarIcon to avoid repeated bundle searching on every updateIcon call.",
+      "status": "Completed",
+      "sort_order": 5,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:07:09.968511Z"
+    },
+    {
+      "id": "94ccb8ce-6169-475e-ba3e-f146ce38fd9d",
+      "name": "Remove @Observable from ThresholdEngine",
+      "description": "Remove the @Observable macro and Observation import from ThresholdEngine since it's never observed via SwiftUI.",
+      "status": "Completed",
+      "sort_order": 6,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:07:21.437063Z"
+    },
+    {
+      "id": "51d68fcf-899f-466e-9d10-4f650a7abe39",
+      "name": "Clean up root-level debug scripts",
+      "description": "Move check_lumen_windows.swift, find_lumen.sh, list_windows.swift, and test_status_items.sh into the scripts/ directory.",
+      "status": "Completed",
+      "sort_order": 7,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:07:35.096121Z"
+    },
+    {
+      "id": "fad4febc-94ec-4508-b0e1-c8485c101807",
+      "name": "Extract ManualOverrideDetector from MainAppController",
+      "description": "Extract lastSelfTriggeredSwitchTime and the time-window check into a separate ManualOverrideDetector class.",
+      "status": "Completed",
+      "sort_order": 8,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:08:27.030789Z"
+    },
+    {
+      "id": "284c96b8-fa76-4ab0-9158-7efb6e0ae4da",
+      "name": "Skip cached source in ALSReader fallback loop",
+      "description": "In ALSReader.currentReading(), skip the already-failed cached source in the fallback loop.",
+      "status": "Completed",
+      "sort_order": 9,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:08:44.074849Z"
+    },
+    {
+      "id": "57395e91-46a2-4c75-a781-49604003588a",
+      "name": "Add clarifying comments for ALS property fallbacks and didSet-during-init",
+      "description": "Add comments explaining the two IORegistry property fallbacks and the didSet-during-init behavior in SettingsStore.",
+      "status": "Completed",
+      "sort_order": 10,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:08:53.872213Z"
+    },
+    {
+      "id": "ebcc6fb0-3946-4a11-a404-2243391a4dca",
+      "name": "Clean up unused LuxLevel conformances",
+      "description": "Add a comment explaining LuxLevel's purpose and remove Identifiable if unused. Add comment to DebounceTimerProtocol about testability.",
+      "status": "Completed",
+      "sort_order": 11,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:09:30.664732Z"
+    },
+    {
+      "id": "f9272968-7a49-4351-bad5-a411376bad4a",
+      "name": "Build and verify all changes compile",
+      "description": "Run the build to ensure all changes compile correctly with no errors.",
+      "status": "Completed",
+      "sort_order": 12,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "created_at": "2026-05-22T18:04:38.623344Z",
+      "updated_at": "2026-05-22T18:14:46.679418Z"
+    }
+  ]
+}

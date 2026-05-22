@@ -6,4 +6,6 @@
 default.profraw
 graphify-out/
 
+*.p12
+*.dmg
 screenshots/

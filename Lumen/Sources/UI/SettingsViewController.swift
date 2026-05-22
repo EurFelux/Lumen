@@ -73,7 +73,7 @@ final class SettingsViewController: NSViewController {
         ])
 
         root.addArrangedSubview(makeTitle())
-        root.setCustomSpacing(20, after: root.arrangedSubviews.last!)
+        root.setCustomSpacing(8, after: root.arrangedSubviews.last!)
 
         root.addArrangedSubview(makeLiveReading())
         root.setCustomSpacing(32, after: root.arrangedSubviews.last!)
@@ -120,10 +120,21 @@ final class SettingsViewController: NSViewController {
     }
 
     private func makeTitle() -> NSView {
-        let label = NSTextField(labelWithString: "Lumen")
-        label.font = NSFont.systemFont(ofSize: 20, weight: .bold)
-        label.alignment = .center
-        return label
+        let imageView = NSImageView()
+        for bundle in [Bundle.main] + Bundle.allBundles {
+            if let url = bundle.url(forResource: "auto_light_mode_logo", withExtension: "png"),
+               let image = NSImage(contentsOf: url) {
+                imageView.image = image
+                break
+            }
+        }
+        imageView.imageScaling = .scaleProportionallyUpOrDown
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            imageView.widthAnchor.constraint(equalToConstant: 260),
+            imageView.heightAnchor.constraint(equalToConstant: 65)
+        ])
+        return imageView
     }
 
     private func makeLiveReading() -> NSView {

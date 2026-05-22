@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "id": "a2071252-dbb5-4738-839e-758b537429d3",
+      "name": "padding and removal of text",
+      "description": "Please remove the \"current measurement\" text. I don't think we need that. And then make sure there's good padding between the lumen text at the top and the actual measurement number and slider. It's a little off right now.",
+      "status": "Completed",
+      "sort_order": 0,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "chat_id": "00d200ef-f94a-418e-9a89-84f0334177e2",
+      "created_at": "2026-05-22T18:46:45.825077Z",
+      "updated_at": "2026-05-22T18:47:59.784544Z"
+    },
+    {
+      "id": "89138add-81af-43b3-9994-5b7ac129cb31",
+      "name": "test",
+      "description": "close and relaunch app for testing",
+      "status": "Completed",
+      "sort_order": 1,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "chat_id": "565c6722-852c-460b-bb61-6abe083ce1c8",
+      "created_at": "2026-05-22T18:47:21.815360Z",
+      "updated_at": "2026-05-22T18:48:43.198467Z"
+    },
+    {
+      "id": "5caffc96-09ea-41f4-8f6c-effbf44496c3",
+      "name": "reduce size",
+      "description": "there is still alot of bring space at the bottom of the window when the settings are open. Let's go ahead and reduce it by about 50%.",
+      "status": "Completed",
+      "sort_order": 2,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "chat_id": "4c245478-f993-472d-ace9-c71fb3706801",
+      "created_at": "2026-05-22T18:49:56.672493Z",
+      "updated_at": "2026-05-22T18:50:10.311673Z"
+    },
+    {
+      "id": "0f95a0eb-65dc-4406-8171-e83563c56115",
+      "name": "tesst",
+      "description": "close and relaunch to app for testing",
+      "status": "Completed",
+      "sort_order": 3,
+      "start_new_chat": false,
+      "stop_after_completion": false,
+      "chat_id": "4f64943e-8648-41a3-9ac5-8eae28d32860",
+      "created_at": "2026-05-22T18:50:26.058808Z",
+      "updated_at": "2026-05-22T18:51:07.300938Z"
+    }
+  ]
+}

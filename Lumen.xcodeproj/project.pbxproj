@@ -38,6 +38,13 @@
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
+		<key>100000000000000000001006</key>
+		<dict>
+			<key>fileRef</key>
+			<string>200000000000000000002021</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>100000000000000000001004</key>
 		<dict>
 			<key>fileRef</key>
@@ -52,7 +59,7 @@
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>100000000000000000001006</key>
+		<key>100000000000000000001010</key>
 		<dict>
 			<key>fileRef</key>
 			<string>200000000000000000002012</string>
@@ -310,6 +317,17 @@
 			<string>image.png</string>
 			<key>path</key>
 			<string>Icons/lumen_icon.png</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>200000000000000000002021</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>image.png</string>
+			<key>path</key>
+			<string>Icons/auto_light_mode_logo.png</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -756,6 +774,7 @@
 			<array>
 				<string>200000000000000000002006</string>
 				<string>200000000000000000002ICON</string>
+				<string>200000000000000000002021</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -1064,6 +1083,7 @@
 			<array>
 				<string>100000000000000000001003</string>
 				<string>100000000000000000001ICON</string>
+				<string>100000000000000000001006</string>
 			</array>
 			<key>isa</key>
 			<string>PBXResourcesBuildPhase</string>
