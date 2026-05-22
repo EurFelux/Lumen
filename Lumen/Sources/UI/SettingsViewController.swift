@@ -48,7 +48,7 @@ final class SettingsViewController: NSViewController {
     }
 
     override func loadView() {
-        view = NSView(frame: NSRect(x: 0, y: 0, width: 360, height: 500))
+        view = NSView(frame: NSRect(x: 0, y: 0, width: 360, height: 460))
     }
 
     override func viewDidLoad() {
@@ -176,11 +176,12 @@ final class SettingsViewController: NSViewController {
     private func makeThresholdSection() -> NSView {
         let stack = NSStackView()
         stack.orientation = .vertical
-        stack.spacing = 10
-        stack.alignment = .leading
+        stack.spacing = 8
+        stack.alignment = .centerX
 
-        let header = NSTextField(labelWithString: "Switch to light when bright")
-        header.font = NSFont.systemFont(ofSize: 13, weight: .semibold)
+        let header = NSTextField(labelWithString: "Threshold")
+        header.font = NSFont.systemFont(ofSize: 15, weight: .semibold)
+        header.alignment = .center
 
         let sliderRow = NSStackView()
         sliderRow.orientation = .horizontal
@@ -191,6 +192,8 @@ final class SettingsViewController: NSViewController {
                                     minValue: 0, maxValue: 1,
                                     target: self, action: #selector(thresholdSliderChanged))
         thresholdSlider.allowsTickMarkValuesOnly = false
+        thresholdSlider.translatesAutoresizingMaskIntoConstraints = false
+        thresholdSlider.widthAnchor.constraint(equalToConstant: 200).isActive = true
 
         thresholdValueLabel = NSTextField(labelWithString: formatLux(settings.lightThreshold))
         thresholdValueLabel.font = NSFont.monospacedSystemFont(ofSize: 13, weight: .medium)
