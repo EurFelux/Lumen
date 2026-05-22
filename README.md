@@ -29,12 +29,6 @@ When the ambient light level crosses your configured threshold, Lumen switches t
 
 ## Features
 
-### Real-Time Sensor Monitoring
-
-Live lux readings displayed in the menu bar popover with color-coded level indicators:
-
-![Lumen Settings](screenshots/menu-bar-popover.png)
-
 ### Configurable Threshold
 
 Set the brightness level that triggers Light mode using a logarithmic slider.

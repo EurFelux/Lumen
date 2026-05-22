@@ -10,7 +10,7 @@ set -euo pipefail
 # Find it with: security find-identity -v -p codesigning
 # Example: DEVELOPER_ID="Developer ID Application: Your Name (TEAMID)"
 # ---------------------------------------------------------------------------
-DEVELOPER_ID="Developer ID Application: YOUR_NAME_HERE (TEAM_ID_HERE)"
+DEVELOPER_ID="Developer ID Application: KEVIN PATRICK KNIGHT (5P2LWPPWRN)"
 # ---------------------------------------------------------------------------
 
 APP_PATH="${1:-}"
@@ -82,8 +82,7 @@ echo "Submitting to Apple Notary Service..."
 echo "(You may be prompted for your Apple ID app-specific password or keychain profile)"
 echo ""
 
-# Option A: Use notarytool with stored credentials profile (recommended)
-# xcrun notarytool submit "$DMG_PATH" --keychain-profile "AC_PASSWORD" --wait
+xcrun notarytool submit "$DMG_PATH" --keychain-profile "AC_PASSWORD" --wait
 
 # Option B: Use notarytool with Apple ID directly (uncomment if needed)
 # xcrun notarytool submit "$DMG_PATH" --apple-id "your@email.com" --team-id "YOUR_TEAM_ID" --password "@keychain:AC_PASSWORD" --wait
