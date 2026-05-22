@@ -37,16 +37,7 @@ Live lux readings displayed in the menu bar popover with color-coded level indic
 
 ### Configurable Threshold
 
-Set the brightness level that triggers Light mode using a logarithmic slider. Six preset light levels are available:
-
-| Level | Lux Range | Environment |
-|-------|-----------|-------------|
-| Cave Dweller | 0–10 lux | Pitch black |
-| Cozy Corner | 10–100 lux | Dim indoor lighting |
-| Office Warrior | 100–400 lux | Normal office lighting |
-| Cloud Browsing | 400–6,400 lux | Overcast day / bright indoor |
-| Beach Mode | 6,400–12,800 lux | Sunny, indirect light |
-| Solar Panel | 12,800+ lux | Direct sunlight |
+Set the brightness level that triggers Light mode using a logarithmic slider.
 
 ### Quick Set
 
