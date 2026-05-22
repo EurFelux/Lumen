@@ -20,6 +20,7 @@ final class SettingsViewController: NSViewController {
     private var debounceButtons: [NSButton] = []
     private var quickSetButton: NSButton!
     private var autoButton: NSButton!
+    private var launchAtLoginCheckbox: NSButton!
 
     private var currentReading: ALSReading?
 
@@ -85,6 +86,9 @@ final class SettingsViewController: NSViewController {
         root.setCustomSpacing(28, after: root.arrangedSubviews.last!)
 
         root.addArrangedSubview(makeActionButtons())
+        root.setCustomSpacing(16, after: root.arrangedSubviews.last!)
+
+        root.addArrangedSubview(makeLaunchAtLoginSection())
         root.setCustomSpacing(24, after: root.arrangedSubviews.last!)
 
         root.addArrangedSubview(makeFooter())
@@ -257,6 +261,18 @@ final class SettingsViewController: NSViewController {
         return stack
     }
 
+    private func makeLaunchAtLoginSection() -> NSView {
+        let checkbox = NSButton(checkboxWithTitle: "Launch at Login", target: self, action: #selector(launchAtLoginToggled))
+        checkbox.state = settings.launchAtLogin ? .on : .off
+        checkbox.font = NSFont.systemFont(ofSize: 13, weight: .regular)
+        launchAtLoginCheckbox = checkbox
+        return checkbox
+    }
+
+    @objc private func launchAtLoginToggled() {
+        settings.launchAtLogin = (launchAtLoginCheckbox.state == .on)
+    }
+
     private func makeActionButtons() -> NSView {
         let stack = NSStackView()
         stack.orientation = .horizontal
@@ -361,6 +377,12 @@ final class SettingsViewController: NSViewController {
         settings.$enableAutoSwitch
             .sink { [weak self] _ in
                 self?.autoButton?.title = self?.autoButtonTitle() ?? "Auto"
+            }
+            .store(in: &cancellables)
+
+        settings.$launchAtLogin
+            .sink { [weak self] enabled in
+                self?.launchAtLoginCheckbox?.state = enabled ? .on : .off
             }
             .store(in: &cancellables)
     }
