@@ -2,6 +2,8 @@
 
 **Automatic light/dark mode switching for macOS — powered by your MacBook's ambient light sensor.**
 
+<img src="screenshots/menu-bar-popover.png" width="362" />
+
 [![macOS](https://img.shields.io/badge/macOS-14.0%2B-orange)](https://www.apple.com/macos)
 [![Swift](https://img.shields.io/badge/Swift-5.9-blue)](https://swift.org)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
