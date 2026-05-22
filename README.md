@@ -33,7 +33,7 @@ When the ambient light level crosses your configured threshold, Lumen switches t
 
 Live lux readings displayed in the menu bar popover with color-coded level indicators:
 
-![Lumen Settings](screenshots/settings-overview.png)
+![Lumen Settings](screenshots/menu-bar-popover.png)
 
 ### Configurable Threshold
 
