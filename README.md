@@ -1,8 +1,8 @@
 # Lumen
 
-<img src="screenshots/menu-bar-popover.png" width="362" />
-
 **Automatic light/dark mode switching for macOS — powered by your MacBook's ambient light sensor.** Lumen is a lightweight macOS menu bar utility that monitors your MacBook's built-in ambient light sensor and automatically switches between Light and Dark appearance — no manual toggling required. Your Mac adapts to your environment just like your iPhone does.
+
+<img src="screenshots/menu-bar-popover.png" width="362" />
 
 [![macOS](https://img.shields.io/badge/macOS-14.0%2B-orange)](https://www.apple.com/macos)
 
