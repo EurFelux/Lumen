@@ -19,7 +19,7 @@ final class SettingsViewController: NSViewController {
     private var thresholdSlider: NSSlider!
     private var debounceButtons: [NSButton] = []
     private var quickSetButton: NSButton!
-    private var autoButton: NSButton!
+    private var autoSwitch: NSSwitch!
     private var launchAtLoginCheckbox: NSButton!
 
     private var currentReading: ALSReading?
@@ -279,20 +279,32 @@ final class SettingsViewController: NSViewController {
         stack.spacing = 12
         stack.distribution = .fillEqually
 
-        autoButton = NSButton(title: autoButtonTitle(), target: self, action: #selector(autoButtonClicked))
-        autoButton.bezelStyle = .roundRect
-        autoButton.toolTip = "Resume automatic light/dark switching after pausing."
+        let autoLabel = NSTextField(labelWithString: "Active")
+        autoLabel.font = NSFont.systemFont(ofSize: 13, weight: .medium)
+
+        autoSwitch = NSSwitch()
+        autoSwitch.state = settings.enableAutoSwitch ? .on : .off
+        autoSwitch.target = self
+        autoSwitch.action = #selector(autoSwitchToggled)
+        autoSwitch.toolTip = "Enable or disable automatic light/dark switching."
+
+        let autoStack = NSStackView(views: [autoLabel, autoSwitch])
+        autoStack.orientation = .horizontal
+        autoStack.spacing = 8
+        autoStack.alignment = .centerY
 
         let quit = NSButton(title: "Quit", target: self, action: #selector(quitButtonClicked))
         quit.bezelStyle = .roundRect
 
-        stack.addArrangedSubview(autoButton)
+        stack.addArrangedSubview(autoStack)
         stack.addArrangedSubview(quit)
         return stack
     }
 
-    private func autoButtonTitle() -> String {
-        settings.enableAutoSwitch ? "Active" : "Unpause"
+    @objc private func autoSwitchToggled() {
+        let newValue = autoSwitch.state == .on
+        settings.enableAutoSwitch = newValue
+        actionDelegate?.settingsViewControllerDidToggleAutoSwitch(newValue)
     }
 
     private func updateLuxIndicator(lux: Double?) {
@@ -343,12 +355,6 @@ final class SettingsViewController: NSViewController {
         }
     }
 
-    @objc private func autoButtonClicked() {
-        let newValue = !settings.enableAutoSwitch
-        settings.enableAutoSwitch = newValue
-        actionDelegate?.settingsViewControllerDidToggleAutoSwitch(newValue)
-    }
-
     @objc private func quickSetButtonClicked() {
         guard let reading = currentReading else { return }
         let adjusted = floor(reading.lux * 0.9 / 100) * 100
@@ -375,8 +381,8 @@ final class SettingsViewController: NSViewController {
             .store(in: &cancellables)
 
         settings.$enableAutoSwitch
-            .sink { [weak self] _ in
-                self?.autoButton?.title = self?.autoButtonTitle() ?? "Auto"
+            .sink { [weak self] enabled in
+                self?.autoSwitch?.state = enabled ? .on : .off
             }
             .store(in: &cancellables)
 

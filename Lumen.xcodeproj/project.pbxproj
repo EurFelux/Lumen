@@ -1171,7 +1171,7 @@
 				<key>COMBINE_HIDPI_IMAGES</key>
 				<string>YES</string>
 				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
+				<string>106</string>
 				<key>ENABLE_HARDENED_RUNTIME</key>
 				<string>YES</string>
 				<key>INFOPLIST_FILE</key>
@@ -1184,7 +1184,7 @@
 				<key>MACOSX_DEPLOYMENT_TARGET</key>
 				<string>14.0</string>
 				<key>MARKETING_VERSION</key>
-				<string>1.01</string>
+				<string>1.06</string>
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>com.lumen.app</string>
 				<key>PRODUCT_NAME</key>
@@ -1214,7 +1214,7 @@
 				<key>COMBINE_HIDPI_IMAGES</key>
 				<string>YES</string>
 				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
+				<string>106</string>
 				<key>ENABLE_HARDENED_RUNTIME</key>
 				<string>YES</string>
 				<key>INFOPLIST_FILE</key>
@@ -1227,7 +1227,7 @@
 				<key>MACOSX_DEPLOYMENT_TARGET</key>
 				<string>14.0</string>
 				<key>MARKETING_VERSION</key>
-				<string>1.01</string>
+				<string>1.06</string>
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>com.lumen.app</string>
 				<key>PRODUCT_NAME</key>
@@ -1255,13 +1255,13 @@
 				<key>COMBINE_HIDPI_IMAGES</key>
 				<string>YES</string>
 				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
+				<string>106</string>
 				<key>GENERATE_INFOPLIST_FILE</key>
 				<string>YES</string>
 				<key>MACOSX_DEPLOYMENT_TARGET</key>
 				<string>14.0</string>
 				<key>MARKETING_VERSION</key>
-				<string>1.01</string>
+				<string>1.06</string>
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>com.lumen.app.tests</string>
 				<key>PRODUCT_NAME</key>
@@ -1289,13 +1289,13 @@
 				<key>COMBINE_HIDPI_IMAGES</key>
 				<string>YES</string>
 				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
+				<string>106</string>
 				<key>GENERATE_INFOPLIST_FILE</key>
 				<string>YES</string>
 				<key>MACOSX_DEPLOYMENT_TARGET</key>
 				<string>14.0</string>
 				<key>MARKETING_VERSION</key>
-				<string>1.01</string>
+				<string>1.06</string>
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>com.lumen.app.tests</string>
 				<key>PRODUCT_NAME</key>
