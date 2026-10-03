@@ -56,6 +56,8 @@ final class SettingsViewController: NSViewController {
         super.viewDidLoad()
         setupUI()
         bindSettings()
+        // Size the popover to its content
+        preferredContentSize = NSSize(width: view.frame.width, height: view.fittingSize.height)
     }
 
     private func setupUI() {
@@ -70,11 +72,8 @@ final class SettingsViewController: NSViewController {
             root.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             root.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             root.topAnchor.constraint(equalTo: view.topAnchor),
-            root.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor)
+            root.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-
-        root.addArrangedSubview(makeTitle())
-        root.setCustomSpacing(8, after: root.arrangedSubviews.last!)
 
         root.addArrangedSubview(makeLiveReading())
         root.setCustomSpacing(32, after: root.arrangedSubviews.last!)
@@ -85,60 +84,38 @@ final class SettingsViewController: NSViewController {
         root.addArrangedSubview(makeDebounceSection())
         root.setCustomSpacing(28, after: root.arrangedSubviews.last!)
 
-        root.addArrangedSubview(makeActionButtons())
-        root.setCustomSpacing(16, after: root.arrangedSubviews.last!)
+        root.addArrangedSubview(makeAutoSwitchRow())
+        root.setCustomSpacing(20, after: root.arrangedSubviews.last!)
 
-        root.addArrangedSubview(makeLaunchAtLoginSection())
-        root.setCustomSpacing(24, after: root.arrangedSubviews.last!)
-
-        root.addArrangedSubview(makeFooter())
+        let footer = makeFooter()
+        root.addArrangedSubview(footer)
+        footer.widthAnchor.constraint(
+            equalTo: root.widthAnchor,
+            constant: -(root.edgeInsets.left + root.edgeInsets.right)
+        ).isActive = true
     }
 
+    /// Separator, then Launch at Login on the left and Quit on the right.
     private func makeFooter() -> NSView {
-        let stack = NSStackView()
-        stack.orientation = .vertical
-        stack.spacing = 4
-        stack.alignment = .centerX
+        let separator = NSBox()
+        separator.boxType = .separator
 
-        let label = NSTextField(labelWithString: "Enjoying Lumen?")
-        label.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        label.textColor = .secondaryLabelColor
-        label.alignment = .center
+        let quit = NSButton(title: "Quit", target: self, action: #selector(quitButtonClicked))
+        quit.bezelStyle = .rounded
 
-        let link = NSButton(title: "Support on Ko-fi ☕", target: self, action: #selector(openKofiLink))
-        link.bezelStyle = .inline
-        link.font = NSFont.systemFont(ofSize: 11, weight: .regular)
-        link.isBordered = false
-        link.contentTintColor = NSColor(calibratedRed: 0.2, green: 0.5, blue: 0.8, alpha: 1)
-        link.toolTip = "Support Lumen development on Ko-fi."
+        let row = NSStackView()
+        row.orientation = .horizontal
+        row.addView(makeLaunchAtLoginSection(), in: .leading)
+        row.addView(quit, in: .trailing)
 
-        stack.addArrangedSubview(label)
-        stack.addArrangedSubview(link)
-        return stack
-    }
-
-    @objc private func openKofiLink() {
-        if let url = URL(string: "https://ko-fi.com/knightfolk") {
-            NSWorkspace.shared.open(url)
-        }
-    }
-
-    private func makeTitle() -> NSView {
-        let imageView = NSImageView()
-        for bundle in [Bundle.main] + Bundle.allBundles {
-            if let url = bundle.url(forResource: "auto_light_mode_logo", withExtension: "png"),
-               let image = NSImage(contentsOf: url) {
-                imageView.image = image
-                break
-            }
-        }
-        imageView.imageScaling = .scaleProportionallyUpOrDown
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        let footer = NSStackView(views: [separator, row])
+        footer.orientation = .vertical
+        footer.spacing = 12
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 260),
-            imageView.heightAnchor.constraint(equalToConstant: 65)
+            separator.widthAnchor.constraint(equalTo: footer.widthAnchor),
+            row.widthAnchor.constraint(equalTo: footer.widthAnchor)
         ])
-        return imageView
+        return footer
     }
 
     private func makeLiveReading() -> NSView {
@@ -273,12 +250,7 @@ final class SettingsViewController: NSViewController {
         settings.launchAtLogin = (launchAtLoginCheckbox.state == .on)
     }
 
-    private func makeActionButtons() -> NSView {
-        let stack = NSStackView()
-        stack.orientation = .horizontal
-        stack.spacing = 12
-        stack.distribution = .fillEqually
-
+    private func makeAutoSwitchRow() -> NSView {
         let autoLabel = NSTextField(labelWithString: "Active")
         autoLabel.font = NSFont.systemFont(ofSize: 13, weight: .medium)
 
@@ -292,13 +264,7 @@ final class SettingsViewController: NSViewController {
         autoStack.orientation = .horizontal
         autoStack.spacing = 8
         autoStack.alignment = .centerY
-
-        let quit = NSButton(title: "Quit", target: self, action: #selector(quitButtonClicked))
-        quit.bezelStyle = .roundRect
-
-        stack.addArrangedSubview(autoStack)
-        stack.addArrangedSubview(quit)
-        return stack
+        return autoStack
     }
 
     @objc private func autoSwitchToggled() {
