@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import OSLog
 
 public protocol MenuBarControllerDelegate: AnyObject {
@@ -16,6 +17,7 @@ public final class MenuBarController: NSObject {
     private var popover: NSPopover!
     private var settingsViewController: SettingsViewController!
     private var eventMonitor: Any?
+    private var cancellables = Set<AnyCancellable>()
 
     public init(settings: SettingsStore) {
         self.settings = settings
@@ -23,6 +25,7 @@ public final class MenuBarController: NSObject {
         setupStatusItem()
         setupPopover()
         setupEventMonitor()
+        bindAutoSwitchState()
     }
 
     deinit {
@@ -52,6 +55,15 @@ public final class MenuBarController: NSObject {
         eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
             self?.closePopover()
         }
+    }
+
+    /// Dims the menu bar icon while automatic switching is turned off.
+    private func bindAutoSwitchState() {
+        settings.$enableAutoSwitch
+            .sink { [weak self] enabled in
+                self?.statusItem.button?.appearsDisabled = !enabled
+            }
+            .store(in: &cancellables)
     }
 
     @objc private func statusBarButtonClicked(_ sender: NSStatusBarButton) {
