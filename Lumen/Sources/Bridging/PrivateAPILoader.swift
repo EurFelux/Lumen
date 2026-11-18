@@ -17,6 +17,15 @@ public enum PrivateAPILoader {
     private static let _bezelHandle: UnsafeMutableRawPointer? = dlopen(BEZEL_SERVICES_PATH, RTLD_LAZY)
     private static let _skylightHandle: UnsafeMutableRawPointer? = dlopen(SKYLIGHT_PATH, RTLD_LAZY)
     private static let _displayHandle: UnsafeMutableRawPointer? = dlopen(DISPLAY_SERVICES_PATH, RTLD_LAZY)
+
+    // CoreBrightness can retain the XPC connection after a client goes out of scope.
+    private static let displayServicesClient: NSObject? = {
+        guard loadDisplayServices() != nil,
+              let clientType = NSClassFromString("DisplayServicesClient") as? NSObject.Type else {
+            return nil
+        }
+        return clientType.perform(NSSelectorFromString("new"))?.takeRetainedValue() as? NSObject
+    }()
     
     public static func loadBezelServices() -> UnsafeMutableRawPointer? {
         return _bezelHandle
@@ -74,12 +83,11 @@ public enum PrivateAPILoader {
         return unsafeBitCast(sym, to: (@convention(c) (Int32) -> Void).self)
     }
     
-    /// DisplayServicesClient.aggregateLux via NSClassFromString + performSelector
+    /// Reads the current ambient light level from the shared DisplayServices client.
     public static func displayServicesAggregatedLux() -> Double? {
-        guard loadDisplayServices() != nil else { return nil }
-        guard let cls = NSClassFromString("DisplayServicesClient") else { return nil }
-        let obj = (cls as? NSObject.Type)?.perform(Selector(("new")))?.takeRetainedValue()
-        let lux = (obj as? NSObject)?.perform(Selector(("copyPropertyForKey:")), with: "AggregatedLux")?.takeRetainedValue() as? NSNumber
+        let lux = displayServicesClient?
+            .perform(NSSelectorFromString("copyPropertyForKey:"), with: "AggregatedLux")?
+            .takeRetainedValue() as? NSNumber
         return lux?.doubleValue
     }
 }
